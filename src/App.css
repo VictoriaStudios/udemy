@@ -1,5 +1,10 @@
 .App {
+  position: relative;
   text-align: center;
+  z-index: 0;
+  margin:0;
+  paddin:0;
+  box-sizing: border-box;
 }
 
 .App-logo {
