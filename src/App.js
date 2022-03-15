@@ -1,12 +1,24 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ErrorModal } from './components/ErrorModal';
 import Button from './components/Button';
 
 function App() {
   const [errorOpen, setErrorOpen] = useState(false)
-  const handleOpenErrorModal = () => setErrorOpen (true)
-  const handleCloseErrorModal = () => setErrorOpen (false)
+  const handleOpenErrorModal = () => {
+    localStorage.setItem ('error', 'true')
+    setErrorOpen (true)
+  }
+  const handleCloseErrorModal = () => {
+    localStorage.setItem ('error', 'false')
+    setErrorOpen (false)
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('error') === 'true') handleOpenErrorModal()
+    else handleCloseErrorModal ()
+  }, [])
+  
 
 
   return (
