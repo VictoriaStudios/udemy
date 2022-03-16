@@ -4,15 +4,18 @@ import { ErrorModal } from './components/ErrorModal';
 import Button from './components/Button';
 
 const modalReducer = (state, action) => {
-    if (action.type==="USER_ERROR_ONE_ENABLE") {
-      if (action.val===true) return {errorOneOpen:true, errorTwoOpen: state.errorTwoOpen}
-      if (action.val===false) return {errorOneOpen:false, errorTwoOpen: state.errorTwoOpen}
-    }
-    if (action.type==="USER_ERROR_TWO_ENABLE") {
+  switch (action.type) {
+    case 'USER_ERROR_ONE_ENABLE':
+      {
+        if (action.val===true) return {errorOneOpen:true, errorTwoOpen: state.errorTwoOpen}
+        if (action.val===false) return {errorOneOpen:false, errorTwoOpen: state.errorTwoOpen}
+      }
+    case 'USER_ERROR_TWO_ENABLE':
       if (action.val===true) return {errorOneOpen:state.errorOneOpen, errorTwoOpen: true}
       if (action.val===false) return {errorOneOpen:state.errorOneOpen, errorTwoOpen: false}
-    }
-    return {errorOneOpen:false, errorTwoOpen: false}
+    default:
+      return {errorOneOpen:false, errorTwoOpen: false}
+  }
 }
 
 function App() {
