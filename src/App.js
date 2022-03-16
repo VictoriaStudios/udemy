@@ -26,6 +26,8 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('error') === 'true') handleOpenErrorModal()
     else handleCloseErrorModal ()
+    if (localStorage.getItem('errorTwo') === 'true') handleOpenErrorTwoModal()
+    else handleCloseErrorTwoModal ()
   }, [])
   
 
