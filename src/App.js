@@ -5,6 +5,7 @@ import Button from './components/Button';
 
 function App() {
   const [errorOpen, setErrorOpen] = useState(false)
+  const [errorTwoOpen, setErrorTwoOpen] = useState(false)
   const handleOpenErrorModal = () => {
     localStorage.setItem ('error', 'true')
     setErrorOpen (true)
@@ -12,6 +13,14 @@ function App() {
   const handleCloseErrorModal = () => {
     localStorage.setItem ('error', 'false')
     setErrorOpen (false)
+  }
+  const handleOpenErrorTwoModal = () => {
+    localStorage.setItem ('errorTwo', 'true')
+    setErrorTwoOpen (true)
+  }
+  const handleCloseErrorTwoModal = () => {
+    localStorage.setItem ('errorTwo', 'false')
+    setErrorTwoOpen (false)
   }
 
   useEffect(() => {
@@ -25,9 +34,13 @@ function App() {
     <div className="App">
       App
       <Button type="submit" onClick={handleOpenErrorModal}>
-        Hi
+        Overlay One
       </Button>
-      {errorOpen? (<ErrorModal onClose={handleCloseErrorModal} />): ("")}
+      <Button type="submit" onClick={handleOpenErrorTwoModal}>
+        Overlay Two
+      </Button>
+      {errorOpen? (<ErrorModal onClose={handleCloseErrorModal} header={"header1"} />): ("")}
+      {errorTwoOpen? (<ErrorModal onClose={handleCloseErrorTwoModal} header={"header2"} />): ("")}
     </div>
   );
 }
