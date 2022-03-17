@@ -7,12 +7,25 @@ const modalReducer = (state, action) => {
   switch (action.type) {
     case 'USER_ERROR_ONE_ENABLE':
       {
-        if (action.val===true) return {errorOneOpen:true, errorTwoOpen: state.errorTwoOpen}
-        if (action.val===false) return {errorOneOpen:false, errorTwoOpen: state.errorTwoOpen}
+        if (action.val===true) {
+          localStorage.setItem ('error', 'true')
+          return {errorOneOpen:true, errorTwoOpen: state.errorTwoOpen}
+        }
+        if (action.val===false) {
+          localStorage.setItem ('error', 'false')
+          return {errorOneOpen:false, errorTwoOpen: state.errorTwoOpen}
+        } 
       }
     case 'USER_ERROR_TWO_ENABLE':
-      if (action.val===true) return {errorOneOpen:state.errorOneOpen, errorTwoOpen: true}
-      if (action.val===false) return {errorOneOpen:state.errorOneOpen, errorTwoOpen: false}
+      if (action.val===true) {
+        localStorage.setItem ('errorTwo', 'true')
+        return {errorOneOpen:state.errorOneOpen, errorTwoOpen: true}
+      } 
+      if (action.val===false)  {
+        localStorage.setItem ('errorTwo', 'false')
+        return{errorOneOpen:state.errorOneOpen, errorTwoOpen: false}
+      }
+      
     default:
       return {errorOneOpen:false, errorTwoOpen: false}
   }
@@ -23,33 +36,12 @@ function App() {
 
   const [modalState, dispatchModal] = useReducer(modalReducer, {errorOneOpen:false, errorTwoOpen: false})
 
-  //classical states commented out, using reducer state instead
-
-  // const [errorOpen, setErrorOpen] = useState(false)
-  // const [errorTwoOpen, setErrorTwoOpen] = useState(false)
-  // const handleOpenErrorModal = () => {
-  //   localStorage.setItem ('error', 'true')
-  //   setErrorOpen (true)
-  // }
-  // const handleCloseErrorModal = () => {
-  //   localStorage.setItem ('error', 'false')
-  //   setErrorOpen (false)
-  // }
-  // const handleOpenErrorTwoModal = () => {
-  //   localStorage.setItem ('errorTwo', 'true')
-  //   setErrorTwoOpen (true)
-  // }
-  // const handleCloseErrorTwoModal = () => {
-  //   localStorage.setItem ('errorTwo', 'false')
-  //   setErrorTwoOpen (false)
-  // }
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('error') === 'true') handleOpenErrorModal()
-  //   else handleCloseErrorModal ()
-  //   if (localStorage.getItem('errorTwo') === 'true') handleOpenErrorTwoModal()
-  //   else handleCloseErrorTwoModal ()
-  // }, [])
+  useEffect(() => {
+    if (localStorage.getItem('error') === 'true') dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:true})
+    else dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:false})
+    if (localStorage.getItem('errorTwo') === 'true') dispatchModal({type:'USER_ERROR_TWO_ENABLE', val:true})
+    else dispatchModal({type:'USER_ERROR_TWO_ENABLE', val:false})
+  }, [])
   
 
 
