@@ -1,8 +1,10 @@
 import './App.css';
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer, useContext } from 'react';
 import { ErrorModal } from './components/ErrorModal';
 import Button from './components/Button';
+import TestContext, { TestContextProvider } from './components/store/TestContext';
 
+//an example of useReducer
 const modalReducer = (state, action) => {
   switch (action.type) {
     case 'USER_ERROR_ONE_ENABLE':
@@ -22,40 +24,13 @@ function App() {
 
 
   const [modalState, dispatchModal] = useReducer(modalReducer, {errorOneOpen:false, errorTwoOpen: false})
-
-  //classical states commented out, using reducer state instead
-
-  // const [errorOpen, setErrorOpen] = useState(false)
-  // const [errorTwoOpen, setErrorTwoOpen] = useState(false)
-  // const handleOpenErrorModal = () => {
-  //   localStorage.setItem ('error', 'true')
-  //   setErrorOpen (true)
-  // }
-  // const handleCloseErrorModal = () => {
-  //   localStorage.setItem ('error', 'false')
-  //   setErrorOpen (false)
-  // }
-  // const handleOpenErrorTwoModal = () => {
-  //   localStorage.setItem ('errorTwo', 'true')
-  //   setErrorTwoOpen (true)
-  // }
-  // const handleCloseErrorTwoModal = () => {
-  //   localStorage.setItem ('errorTwo', 'false')
-  //   setErrorTwoOpen (false)
-  // }
-
-  // useEffect(() => {
-  //   if (localStorage.getItem('error') === 'true') handleOpenErrorModal()
-  //   else handleCloseErrorModal ()
-  //   if (localStorage.getItem('errorTwo') === 'true') handleOpenErrorTwoModal()
-  //   else handleCloseErrorTwoModal ()
-  // }, [])
-  
-
+  const ctx = useContext(TestContext)
 
   return (
+<TestContextProvider>
     <div className="App">
       App
+      <p>{ctx.loggedIn.toString()}</p>
       <Button  onClick={() => dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:true})}>
         Overlay One
       </Button>
@@ -64,7 +39,17 @@ function App() {
       </Button>
       {modalState.errorOneOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:false})} header={"header1"} />): ("")}
       {modalState.errorTwoOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_TWO_ENABLE', val:false})} header={"header2"} />): ("")}
+      {!ctx.loggedIn ? (
+        <Button onClick={() => ctx.onLogin()}>
+          Log in
+        </Button>
+      ):(
+        <Button onClick={() => ctx.onLogout()}>
+        Log out
+      </Button>
+      )}
     </div>
+    </TestContextProvider>
   );
 }
 
