@@ -19,7 +19,7 @@ export const ErrorModal = props => {
   return (
     <>
         {ReactDOM.createPortal(<Backdrop onClick={props.onClose}/>, document.getElementById('backdrop-root'))}
-        {ReactDOM.createPortal(<ModalOverlay header={props.header}/>, document.getElementById('backdrop-root'))}
+        {ReactDOM.createPortal(<ModalOverlay header={props.header}/>, document.getElementById('overlay-root'))}
     </>
   )
 }
