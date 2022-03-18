@@ -7,7 +7,7 @@ export const testContext = createContext();
 
 const TestProvider = (props) => {
         // this state will be shared with all components 
-    const [userDetails, setUserDetails] = useState();
+    const [userDetails, setUserDetails] = useState({loggedIn:false});
 
     return (
             // this is the provider providing state

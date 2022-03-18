@@ -2,8 +2,8 @@ import './App.css';
 import { useState, useEffect, useReducer, useContext } from 'react';
 import { ErrorModal } from './components/ErrorModal';
 import Button from './components/Button';
-import TestProvider from './components/store/TestProvider';
 import { testContext } from './components/store/TestProvider';
+import { ContextTester } from './components/ContextTester';
 
 //an example of useReducer
 const modalReducer = (state, action) => {
@@ -38,7 +38,8 @@ function App() {
 
 
   const [modalState, dispatchModal] = useReducer(modalReducer, {errorOneOpen:false, errorTwoOpen: false})
-  const [userDetails, setUserDetails] = useContext(testContext);
+  const [userDetails, setUserDetails] = useContext(testContext)
+  const ctx= useContext(testContext)
 
   useEffect(() => {
     if (localStorage.getItem('error') === 'true') dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:true})
@@ -60,6 +61,17 @@ function App() {
       </Button>
       {modalState.errorOneOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:false})} header={"header1"} />): ("")}
       {modalState.errorTwoOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_TWO_ENABLE', val:false})} header={"header2"} />): ("")}
+      {!userDetails.loggedIn ? (
+        <ContextTester message="Not logged in"/>
+      ): (
+        <ContextTester message="Logged in"/>
+      )}
+      <Button onClick={() => {
+        const opposite = !userDetails.loggedIn
+        setUserDetails ({loggedIn:opposite})
+      }}>
+        Update Context State
+      </Button>
     </div>
   )
 }
