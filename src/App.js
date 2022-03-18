@@ -2,6 +2,8 @@ import './App.css';
 import { useState, useEffect, useReducer, useContext } from 'react';
 import { ErrorModal } from './components/ErrorModal';
 import Button from './components/Button';
+import TestProvider from './components/store/TestProvider';
+import { testContext } from './components/store/TestProvider';
 
 //an example of useReducer
 const modalReducer = (state, action) => {
@@ -36,6 +38,7 @@ function App() {
 
 
   const [modalState, dispatchModal] = useReducer(modalReducer, {errorOneOpen:false, errorTwoOpen: false})
+  const [userDetails, setUserDetails] = useContext(testContext);
 
   useEffect(() => {
     if (localStorage.getItem('error') === 'true') dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:true})
@@ -57,15 +60,6 @@ function App() {
       </Button>
       {modalState.errorOneOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:false})} header={"header1"} />): ("")}
       {modalState.errorTwoOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_TWO_ENABLE', val:false})} header={"header2"} />): ("")}
-      {/* {!ctx.loggedIn ? (
-        <Button onClick={() => ctx.onLogin()}>
-          Log in
-        </Button>
-      ):(
-        <Button onClick={() => ctx.onLogout()}>
-        Log out
-      </Button>
-      )} */}
     </div>
   )
 }
