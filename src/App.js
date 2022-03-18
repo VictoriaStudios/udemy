@@ -2,7 +2,6 @@ import './App.css';
 import { useState, useEffect, useReducer, useContext } from 'react';
 import { ErrorModal } from './components/ErrorModal';
 import Button from './components/Button';
-import TestContext, { TestContextProvider } from './components/store/TestContext';
 
 //an example of useReducer
 const modalReducer = (state, action) => {
@@ -37,7 +36,6 @@ function App() {
 
 
   const [modalState, dispatchModal] = useReducer(modalReducer, {errorOneOpen:false, errorTwoOpen: false})
-  const ctx = useContext(TestContext)
 
   useEffect(() => {
     if (localStorage.getItem('error') === 'true') dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:true})
@@ -49,10 +47,8 @@ function App() {
 
 
   return (
-<TestContextProvider>
     <div className="App">
       App
-      <p>{ctx.loggedIn.toString()}</p>
       <Button  onClick={() => dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:true})}>
         Overlay One
       </Button>
@@ -61,7 +57,7 @@ function App() {
       </Button>
       {modalState.errorOneOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:false})} header={"header1"} />): ("")}
       {modalState.errorTwoOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_TWO_ENABLE', val:false})} header={"header2"} />): ("")}
-      {!ctx.loggedIn ? (
+      {/* {!ctx.loggedIn ? (
         <Button onClick={() => ctx.onLogin()}>
           Log in
         </Button>
@@ -69,10 +65,9 @@ function App() {
         <Button onClick={() => ctx.onLogout()}>
         Log out
       </Button>
-      )}
+      )} */}
     </div>
-    </TestContextProvider>
-  );
+  )
 }
 
 export default App;
