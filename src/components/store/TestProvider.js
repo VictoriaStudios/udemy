@@ -1,17 +1,32 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useReducer } from 'react';
 
-//https://dev.to/ms_yogii/usecontext-for-better-state-management-51hi
 
-//create a context, with createContext api
 export const testContext = createContext();
 
+const detailsReducer = (state, action) => {
+        switch (action.type) {
+            case 'LOG_IN': return {loggedIn:true}
+            case 'LOG_OUT': return {loggedIn:false}
+            default: return {loggedIn:false}
+        }
+}
+
 const TestProvider = (props) => {
-        // this state will be shared with all components 
-    const [userDetails, setUserDetails] = useState({loggedIn:false});
+    //basic state management
+    //const [userDetails, setUserDetails] = useState({loggedIn:false});
+
+    const [userDetails, dispatchDetails] = useReducer(detailsReducer, {loggedIn:false})
+
+
 
     return (
-            // this is the provider providing state
-        <testContext.Provider value={[userDetails, setUserDetails]}>
+        //this line works with the basic state management
+        //<testContext.Provider value={[userDetails, setUserDetails]}>
+        <testContext.Provider value={{
+            loggedIn:userDetails.loggedIn,
+            dispatchDetails:dispatchDetails,
+
+        }}>
             {props.children}
         </testContext.Provider>
     );

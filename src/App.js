@@ -38,8 +38,9 @@ function App() {
 
 
   const [modalState, dispatchModal] = useReducer(modalReducer, {errorOneOpen:false, errorTwoOpen: false})
-  const [userDetails, setUserDetails] = useContext(testContext)
+  
   const ctx= useContext(testContext)
+
 
   useEffect(() => {
     if (localStorage.getItem('error') === 'true') dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:true})
@@ -61,17 +62,18 @@ function App() {
       </Button>
       {modalState.errorOneOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_ONE_ENABLE', val:false})} header={"header1"} />): ("")}
       {modalState.errorTwoOpen? (<ErrorModal onClose={() => dispatchModal({type:'USER_ERROR_TWO_ENABLE', val:false})} header={"header2"} />): ("")}
-      {!userDetails.loggedIn ? (
+      {!ctx.loggedIn ? (
+        <>
         <ContextTester message="Not logged in"/>
+        <Button onClick={() => ctx.dispatchDetails({type: "LOG_IN"})}>Log in</Button>
+        </>
       ): (
+        <>
         <ContextTester message="Logged in"/>
+        <Button onClick={() => ctx.dispatchDetails("LOG_OUT")}>Log out</Button>
+        </>
       )}
-      <Button onClick={() => {
-        const opposite = !userDetails.loggedIn
-        setUserDetails ({loggedIn:opposite})
-      }}>
-        Update Context State
-      </Button>
+
     </div>
   )
 }
