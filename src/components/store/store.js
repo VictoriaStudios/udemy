@@ -1,16 +1,19 @@
 import {createStore} from 'redux'
 
 const initialState = {
-    counter: 0
+    counter: 0,
+    showCounter: true
 }
 
 const counterReducer = ( state = {initialState}, action) => {
     switch (action.type) {
-        case 'INCREMENT': return {counter: state.counter+1}
-        case 'DECREMENT': return {counter: state.counter-1}
+        case 'INCREMENT': return {...state, counter: state.counter+action.val}
+        case 'DECREMENT': return {...state, counter: state.counter-action.val}
+        case 'TOGGLE_COUNTER': return {...state, showCounter:!state.showCounter}
+        default: return state
     }
 }
 
-const reduxStore = createStore(counterReducer, {initialState})
+const reduxStore = createStore(counterReducer, initialState)
 
 export default reduxStore

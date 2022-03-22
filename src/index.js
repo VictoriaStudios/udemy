@@ -8,7 +8,9 @@ import reduxStore from './components/store/store'
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* Redux store provider */}
     <Provider store={reduxStore}>
+    {/* React context provider */}
     <TestProvider>
     <App />
     </TestProvider>
